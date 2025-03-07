@@ -1,5 +1,5 @@
+"use client";
 // pages/attributes.tsx
-import Head from 'next/head';
 import { useEffect } from 'react';
 
 const AttributesPage = () => {
@@ -10,7 +10,8 @@ const AttributesPage = () => {
       if (!attributeList) return;
 
       const newLi = document.createElement("li");
-      newLi.innerHTML = `<input type="text" name="${categoryId.replace('-attributes', '_attributes[]')}" value=""><button type="button" class="remove-attribute"><i class="fas fa-times"></i></button>`;
+      newLi.className = "flex items-center space-x-2";
+      newLi.innerHTML = `<input type="text" name="${categoryId.replace('-attributes', '_attributes[]')}" class="flex-1 p-2 border border-gray-300 rounded" value=""><button type="button" class="remove-attribute text-red-500 hover:text-red-700">X</button>`;
 
       attributeList.appendChild(newLi);
 
@@ -21,8 +22,8 @@ const AttributesPage = () => {
     };
 
     const removeAttribute = (button: HTMLElement) => {
-      const li = button.parentNode as HTMLElement;
-      li.parentNode?.removeChild(li);
+      const li = button.closest('li');
+      li?.parentNode?.removeChild(li);
     };
 
     // Attach event listeners to dynamically created elements.  Better than onclick= in string above.
@@ -58,17 +59,12 @@ const AttributesPage = () => {
   }, []);  // Empty dependency array ensures this runs only once after the initial render
 
   return (
-    <div>
-      <Head>
-        <title>Parking App: Edit Attributes</title>
-        {/* Font Awesome CSS - include in head */}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
-      </Head>
+ 
       <div className="container mx-auto py-12 px-4">
         <section className="mb-12">
-          <h1 className="text-2xl font-bold mb-4">Adapting AirBNB's data schema for Parking Space Rentals</h1>
+          <h1 className="text-2xl font-bold mb-4">Adapting AirBNB&apos;s data schema for Parking Space Rentals</h1>
           <p className="text-gray-700 leading-relaxed">
-            I started with a clone of Airbnb's data schema to create our app for booking parking spaces. This approach allowed me to focus on the unique aspects of parking while benefiting from established design patterns and database principles.
+            I started with a clone of Airbnb&apos;s data schema to create our app for booking parking spaces. This approach allowed me to focus on the unique aspects of parking while benefiting from established design patterns and database principles.
           </p>
           <p className="text-gray-700 leading-relaxed mt-4">
             This will benefit our app users by providing them a similar listing, with similar attributes to AirBNB, that can be understood in similar ways. But I need your help with some of the details.
@@ -92,7 +88,7 @@ const AttributesPage = () => {
         <section className="mb-12">
           <h2 className="text-xl font-bold mb-4">Data Adaptations for Parking</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
-            Here's a summary of the key changes to the <code>property</code> table, now renamed to <code>listing</code>:
+            Here&apos;s a summary of the key changes to the <code>property</code> table, now renamed to <code>listing</code>:
           </p>
 
           <div className="overflow-x-auto">
@@ -153,7 +149,7 @@ const AttributesPage = () => {
                   <td className="px-6 py-4 whitespace-nowrap"><em>N/A</em></td>
                   <td className="px-6 py-4 whitespace-nowrap"><code>size</code></td>
                   <td className="px-6 py-4 whitespace-nowrap"><code>VARCHAR</code></td>
-                  <td className="px-6 py-4 text-gray-700 leading-relaxed">Indicates the size of vehicle that the spot can accommodate (e.g., "Compact", "Standard", "Oversized").</td>
+                  <td className="px-6 py-4 text-gray-700 leading-relaxed">Indicates the size of vehicle that the spot can accommodate (e.g., &quot;Compact&quot;, &quot;Standard&quot;, &quot;Oversized&quot;).</td>
                   <td className="px-6 py-4 text-gray-700 leading-relaxed">(None)</td>
                 </tr>
                 <tr>
@@ -174,7 +170,7 @@ const AttributesPage = () => {
                   <td className="px-6 py-4 whitespace-nowrap"><em>N/A</em></td>
                   <td className="px-6 py-4 whitespace-nowrap"><code>instructions</code></td>
                   <td className="px-6 py-4 whitespace-nowrap"><code>VARCHAR</code></td>
-                  <td className="px-6 py-4 text-gray-700 leading-relaxed">Provide specific instructions for accessing the parking space (e.g., "Enter through the gate on Elm Street", "Spot #3 on the left").</td>
+                  <td className="px-6 py-4 text-gray-700 leading-relaxed">Provide specific instructions for accessing the parking space (e.g., &quot;Enter through the gate on Elm Street&quot;, &quot;Spot #3 on the left&quot;).</td>
                   <td className="px-6 py-4 text-gray-700 leading-relaxed">(None)</td>
                 </tr>
                 <tr>
@@ -182,7 +178,7 @@ const AttributesPage = () => {
                   <td className="px-6 py-4 whitespace-nowrap"><code>is_event_parking</code></td>
                   <td className="px-6 py-4 whitespace-nowrap"><code>BOOLEAN</code></td>
                   <td className="px-6 py-4 text-gray-700 leading-relaxed">Indicates if this parking spot is reserved for events, to apply dynamic pricing and proximity filters.</td>
-                  <td className="px-6 py-4 text-gray-700 leading-relaxed">What are your thoughts on "Event Parking" specifically as opposed to default parking status?</td>
+                  <td className="px-6 py-4 text-gray-700 leading-relaxed">What are your thoughts on &quot;Event Parking&quot; specifically as opposed to default parking status?</td>
                 </tr>
               </tbody>
             </table>
@@ -190,46 +186,54 @@ const AttributesPage = () => {
         </section>
 
         <section className="mb-12">
+            <h2 className="section-title text-gray-800">Attribute Usage Examples</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+                These screenshots demonstrate how the attributes will be used in the app&apos;s user interface:
+            </p>
+
+            <div className="flex flex-col items-center">
+                <h3 className="section-subtitle text-gray-800">Listing Details</h3>
+                <img src="/images/list.png" alt="Filters Screenshot" className="img-demo" />
+
+                <h3 className="section-subtitle text-gray-800">Filters</h3>
+                <img src="/images/find.png" alt="Listing Details Screenshot" className="img-demo" />
+            </div>
+        </section>
+  
+
+        <section className="mb-12">
           <h2 className="section-title text-gray-800">Defining Parking Space Attributes</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             Here is where I need your input to define the attributes that will make our parking space listings stand out. These attributes will allow renters to filter and find the perfect spot for their needs.
           </p>
 
-          <form name="edit-attributes" method="POST" data-netlify="true">
+          <form name="edit-attributes" method="POST" data-netlify="true" className="space-y-6">
             <input type="hidden" name="form-name" value="edit-attributes" />
 
             {/* Category: Space Features */}
-            <div className="mb-6 card p-4 rounded-lg">
-              <h3 className="section-subtitle text-gray-800">Space Features</h3>
-              <ul className="attribute-list" id="space-features-attributes">
-                <li>
-                  <input type="text" name="space_features_attributes[]" defaultValue="Compact Size" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+            <div className="mb-6 card p-4 rounded-lg bg-white shadow-md">
+              <h3 className="section-subtitle text-gray-800 font-semibold mb-2">Space Features</h3>
+              <ul className="attribute-list space-y-2" id="space-features-attributes">
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="space_features_attributes[]" defaultValue="Compact Size" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="space_features_attributes[]" defaultValue="Oversized Vehicle Allowed" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="space_features_attributes[]" defaultValue="Oversized Vehicle Allowed" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="space_features_attributes[]" defaultValue="Electric Vehicle Charging" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="space_features_attributes[]" defaultValue="Electric Vehicle Charging" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="space_features_attributes[]" defaultValue="Covered" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="space_features_attributes[]" defaultValue="Covered" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
               </ul>
               <button
                 type="button"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button mt-4"
                 data-category-id="space-features-attributes"
               >
                 Add Attribute
@@ -237,37 +241,29 @@ const AttributesPage = () => {
             </div>
 
             {/* Category: Security */}
-            <div className="mb-6 card p-4 rounded-lg">
-              <h3 className="section-subtitle text-gray-800">Security</h3>
-              <ul className="attribute-list" id="security-attributes">
-                <li>
-                  <input type="text" name="security_attributes[]" defaultValue="Security Cameras" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+            <div className="mb-6 card p-4 rounded-lg bg-white shadow-md">
+              <h3 className="section-subtitle text-gray-800 font-semibold mb-2">Security</h3>
+              <ul className="attribute-list space-y-2" id="security-attributes">
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="security_attributes[]" defaultValue="Security Cameras" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="security_attributes[]" defaultValue="Gated Access" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="security_attributes[]" defaultValue="Gated Access" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="security_attributes[]" defaultValue="On-Site Attendant" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="security_attributes[]" defaultValue="On-Site Attendant" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="security_attributes[]" defaultValue="Well-Lit" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="security_attributes[]" defaultValue="Well-Lit" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
               </ul>
               <button
                 type="button"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button mt-4"
                 data-category-id="security-attributes"
               >
                 Add Attribute
@@ -275,37 +271,29 @@ const AttributesPage = () => {
             </div>
 
             {/* Category: Accessibility */}
-            <div className="mb-6 card p-4 rounded-lg">
-              <h3 className="section-subtitle text-gray-800">Accessibility</h3>
-              <ul className="attribute-list" id="accessibility-attributes">
-                <li>
-                  <input type="text" name="accessibility_attributes[]" defaultValue="Handicap Accessible" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+            <div className="mb-6 card p-4 rounded-lg bg-white shadow-md">
+              <h3 className="section-subtitle text-gray-800 font-semibold mb-2">Accessibility</h3>
+              <ul className="attribute-list space-y-2" id="accessibility-attributes">
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Handicap Accessible" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="accessibility_attributes[]" defaultValue="Paved" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Paved" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="accessibility_attributes[]" defaultValue="Level Surface" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Level Surface" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="accessibility_attributes[]" defaultValue="Easy Turnaround" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Easy Turnaround" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
               </ul>
               <button
                 type="button"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button mt-4"
                 data-category-id="accessibility-attributes"
               >
                 Add Attribute
@@ -313,37 +301,29 @@ const AttributesPage = () => {
             </div>
 
             {/* Category: Location */}
-            <div className="mb-6 card p-4 rounded-lg">
-              <h3 className="section-subtitle text-gray-800">Location</h3>
-              <ul className="attribute-list" id="location-attributes">
-                <li>
-                  <input type="text" name="location_attributes[]" defaultValue="Near Stadium Entrance" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+            <div className="mb-6 card p-4 rounded-lg bg-white shadow-md">
+              <h3 className="section-subtitle text-gray-800 font-semibold mb-2">Location</h3>
+              <ul className="attribute-list space-y-2" id="location-attributes">
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="location_attributes[]" defaultValue="Near Stadium Entrance" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="location_attributes[]" defaultValue="Downtown Core" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="location_attributes[]" defaultValue="Downtown Core" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="location_attributes[]" defaultValue="Close to Public Transport" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="location_attributes[]" defaultValue="Close to Public Transport" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="location_attributes[]" defaultValue="Residential Area" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="location_attributes[]" defaultValue="Residential Area" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
               </ul>
               <button
                 type="button"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button mt-4"
                 data-category-id="location-attributes"
               >
                 Add Attribute
@@ -351,31 +331,25 @@ const AttributesPage = () => {
             </div>
 
             {/* Category: Game Day */}
-            <div className="mb-6 card p-4 rounded-lg">
-              <h3 className="section-subtitle text-gray-800">Game Day</h3>
-              <ul className="attribute-list" id="game-day-attributes">
-                <li>
-                  <input type="text" name="game_day_attributes[]" defaultValue="Walkable Distance to Stadium" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+            <div className="mb-6 card p-4 rounded-lg bg-white shadow-md">
+              <h3 className="section-subtitle text-gray-800 font-semibold mb-2">Game Day</h3>
+              <ul className="attribute-list space-y-2" id="game-day-attributes">
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="game_day_attributes[]" defaultValue="Walkable Distance to Stadium" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="game_day_attributes[]" defaultValue="Tailgating Allowed" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="game_day_attributes[]" defaultValue="Tailgating Allowed" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
-                <li>
-                  <input type="text" name="game_day_attributes[]" defaultValue="Family Friendly" />
-                  <button type="button" className="remove-attribute">
-                    <i className="fas fa-times"></i>
-                  </button>
+                <li className="flex items-center space-x-2">
+                  <input type="text" name="game_day_attributes[]" defaultValue="Family Friendly" className="flex-1 p-2 border border-gray-300 rounded" />
+                  <button type="button" className="remove-attribute text-red-500 hover:text-red-700">X</button>
                 </li>
               </ul>
               <button
                 type="button"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button mt-4"
                 data-category-id="game-day-attributes"
               >
                 Add Attribute
@@ -390,13 +364,7 @@ const AttributesPage = () => {
             </div>
           </form>
         </section>
-
-        {/* Client Task */}
-        <section className="mb-12">
-          <h2 className="section-title text-gray-800">Client Input Needed</h2>
-        </section>
       </div>
-    </div>
   );
 };
 

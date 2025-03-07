@@ -1,25 +1,21 @@
-// pages/data-definition.js
-import Head from 'next/head';
+
 
 const DataDefinitionPage = () => {
   return (
-    <div>
-      <Head>
-        <title>Parking App: Data Definition</title>
-      </Head>
+   
       <div className="container mx-auto py-12 px-4">
       <section>
-            <h1 class="section-title text-gray-800">Data Definition</h1>
-            <p class="text-gray-700 leading-relaxed mb-8">
+            <h1 className="section-title text-gray-800">Data Definition</h1>
+            <p className="text-gray-700 leading-relaxed mb-8">
                 This page provides a detailed description of the database schema used in the parking app project.  Each table and its columns are explained below.
             </p>
 
-            <!-- Listing Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">listing</h2>
-            <p class="text-gray-700 mb-4">A record for a parking space that can be booked on the website.</p>
-            <table class="data-table">
+            {/* Listing Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">listing</h2>
+            <p className="text-gray-700 mb-4">A record for a parking space that can be booked on the website.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -41,13 +37,13 @@ const DataDefinitionPage = () => {
                     </tr>
                     <tr>
                         <td>place_type_id</td>
-                        <td>A foreign key to the place_type table to indicate the type of parking space (e.g., "Driveway").</td>
+                        <td>A foreign key to the place_type table to indicate the type of parking space (e.g., &quot;Driveway&quot;).</td>
                         <td>INT</td>
                         <td>1, 2, 4</td>
                     </tr>
                     <tr>
                         <td>property_type_id</td>
-                        <td>A foreign key to the property_type table to indicate the type of property (e.g., "Covered").</td>
+                        <td>A foreign key to the property_type table to indicate the type of property (e.g., &quot;Covered&quot;).</td>
                         <td>INT</td>
                         <td>3, 4, 5</td>
                     </tr>
@@ -71,9 +67,9 @@ const DataDefinitionPage = () => {
                     </tr>
                     <tr>
                         <td>property_name</td>
-                        <td>A descriptive name for the parking space (e.g., "Stadium Parking - Lot A").</td>
+                        <td>A descriptive name for the parking space (e.g., &quot;Stadium Parking - Lot A&quot;).</td>
                         <td>VARCHAR(200)</td>
-                        <td>"Stadium Parking - Lot A", "Covered Spot Downtown"</td>
+                        <td>&quot;Stadium Parking - Lot A&quot;, &quot;Covered Spot Downtown&quot;</td>
                     </tr>
                     <tr>
                         <td>is_favourite</td>
@@ -85,25 +81,25 @@ const DataDefinitionPage = () => {
                         <td>description</td>
                         <td>Detailed description of the parking space.</td>
                         <td>VARCHAR(2000)</td>
-                        <td>"Secure, covered parking space close to the stadium entrance."</td>
+                        <td>&quot;Secure, covered parking space close to the stadium entrance.&quot;</td>
                     </tr>
                     <tr>
                         <td>address_line_1</td>
-                        <td>The first line of the parking space's address.</td>
+                        <td>The first line of the parking space&apos;s address.</td>
                         <td>VARCHAR(500)</td>
-                        <td>"123 Main Street"</td>
+                        <td>&quot;123 Main Street&quot;</td>
                     </tr>
                     <tr>
                         <td>address_line_2</td>
-                        <td>The second line of the parking space's address (optional).</td>
+                        <td>The second line of the parking space&apos;s address (optional).</td>
                         <td>VARCHAR(500)</td>
-                        <td>"Apt 4B"</td>
+                        <td>&quot;Apt 4B&quot;</td>
                     </tr>
                     <tr>
                         <td>size</td>
-                        <td>The size of vehicle that the spot can accommodate (e.g., "Compact", "Standard", "Oversized").</td>
+                        <td>The size of vehicle that the spot can accommodate (e.g., &quot;Compact&quot;, &quot;Standard&quot;, &quot;Oversized&quot;).</td>
                         <td>VARCHAR(50)</td>
-                        <td>"Compact", "Standard", "Oversized"</td>
+                        <td>&quot;Compact&quot;, &quot;Standard&quot;, &quot;Oversized&quot;</td>
                     </tr>
                     <tr>
                         <td>max_vehicle_height</td>
@@ -115,13 +111,13 @@ const DataDefinitionPage = () => {
                         <td>license_plate</td>
                         <td>(Optional) The license plate of the vehicle using the parking space.</td>
                         <td>VARCHAR(20)</td>
-                        <td>"ABC-123"</td>
+                        <td>&quot;ABC-123&quot;</td>
                     </tr>
                     <tr>
                         <td>instructions</td>
                         <td>Specific instructions for accessing the parking space.</td>
                         <td>VARCHAR(1000)</td>
-                        <td>"Enter through the gate on Elm Street, Spot #3 on the left."</td>
+                        <td>&quot;Enter through the gate on Elm Street, Spot #3 on the left.&quot;</td>
                     </tr>
                     <tr>
                         <td>is_event_parking</td>
@@ -132,12 +128,12 @@ const DataDefinitionPage = () => {
                 </tbody>
             </table>
 
-            <!-- User Account Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">user_account</h2>
-            <p class="text-gray-700 mb-4">A record for a user.</p>
-            <table class="data-table">
+            {/* User Account Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">user_account</h2>
+            <p className="text-gray-700 mb-4">A record for a user.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -155,47 +151,47 @@ const DataDefinitionPage = () => {
                         <td>first_name</td>
                         <td>First name of user</td>
                         <td>VARCHAR(300)</td>
-                        <td>"John"</td>
+                        <td>&quot;John&quot;</td>
                     </tr>
                     <tr>
                         <td>last_name</td>
                         <td>Last name of user</td>
                         <td>VARCHAR(300)</td>
-                        <td>"Doe"</td>
+                        <td>&quot;Doe&quot;</td>
                     </tr>
                      <tr>
                         <td>email_address</td>
                         <td>Email address of user</td>
                         <td>VARCHAR(350)</td>
-                        <td>"john.doe@example.com"</td>
+                        <td>&quot;john.doe@example.com&quot;</td>
                     </tr>
                      <tr>
                         <td>password</td>
                         <td>Hashed password for the user</td>
                         <td>VARCHAR(200)</td>
-                        <td>"hashed_password"</td>
+                        <td>&quot;hashed_password&quot;</td>
                     </tr>
                      <tr>
                         <td>joined_date</td>
                         <td>Date user joined the platform</td>
                         <td>DATE</td>
-                        <td>"2024-01-01"</td>
+                        <td>&quot;2024-01-01&quot;</td>
                     </tr>
                      <tr>
                         <td>date_host_started</td>
                         <td>Date user started being a host</td>
                         <td>DATE</td>
-                        <td>"2024-02-15"</td>
+                        <td>&quot;2024-02-15&quot;</td>
                     </tr>
                 </tbody>
             </table>
 
-             <!-- location Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">location</h2>
-            <p class="text-gray-700 mb-4">Stores location data.</p>
-            <table class="data-table">
+             {/* location Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">location</h2>
+            <p className="text-gray-700 mb-4">Stores location data.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -219,17 +215,17 @@ const DataDefinitionPage = () => {
                         <td>location_name</td>
                         <td>Name of location</td>
                         <td>VARCHAR(200)</td>
-                        <td>"New York", "Paris"</td>
+                        <td>&quot;New York&quot;, &quot;Paris&quot;</td>
                     </tr>
                 </tbody>
             </table>
 
-            <!-- place_type Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">place_type</h2>
-            <p class="text-gray-700 mb-4">Type of place.</p>
-            <table class="data-table">
+            {/* place_type Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">place_type</h2>
+            <p className="text-gray-700 mb-4">Type of place.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -247,17 +243,17 @@ const DataDefinitionPage = () => {
                         <td>type_name</td>
                         <td>Type of place</td>
                         <td>VARCHAR(200)</td>
-                        <td>"Driveway", "Lot"</td>
+                        <td>&quot;Driveway&quot;, &quot;Lot&quot;</td>
                     </tr>
                 </tbody>
             </table>
 
-            <!-- property_type Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">property_type</h2>
-            <p class="text-gray-700 mb-4">The kind of property.</p>
-            <table class="data-table">
+            {/* property_type Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">property_type</h2>
+            <p className="text-gray-700 mb-4">The kind of property.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -275,17 +271,17 @@ const DataDefinitionPage = () => {
                         <td>type_name</td>
                         <td>Kind of property</td>
                         <td>VARCHAR(200)</td>
-                        <td>"Covered", "Uncovered"</td>
+                        <td>&quot;Covered&quot;, &quot;Uncovered&quot;</td>
                     </tr>
                 </tbody>
             </table>
 
-            <!-- attribute Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">attribute</h2>
-            <p class="text-gray-700 mb-4">Attributes to be assigned.</p>
-            <table class="data-table">
+            {/* attribute Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">attribute</h2>
+            <p className="text-gray-700 mb-4">Attributes to be assigned.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -309,23 +305,23 @@ const DataDefinitionPage = () => {
                         <td>attribute_name</td>
                         <td>The name of the attribute</td>
                         <td>VARCHAR(200)</td>
-                        <td>"Security Cameras"</td>
+                        <td>&quot;Security Cameras&quot;</td>
                     </tr>
                      <tr>
                         <td>description</td>
                         <td>A longer description for the users</td>
                         <td>VARCHAR(500)</td>
-                        <td>"Parking has security cameras"</td>
+                        <td>&quot;Parking has security cameras&quot;</td>
                     </tr>
                 </tbody>
             </table>
 
-            <!-- attribute_category Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">attribute_category</h2>
-            <p class="text-gray-700 mb-4">Type of attribute.</p>
-            <table class="data-table">
+            {/* attribute_category Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">attribute_category</h2>
+            <p className="text-gray-700 mb-4">Type of attribute.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -343,17 +339,17 @@ const DataDefinitionPage = () => {
                         <td>category_name</td>
                         <td>Short name for the attribute group</td>
                         <td>VARCHAR(200)</td>
-                        <td>"Space Features"</td>
+                        <td>&quot;Space Features&quot;</td>
                     </tr>
                 </tbody>
             </table>
 
-            <!-- booking Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">booking</h2>
-            <p class="text-gray-700 mb-4">A booking that a user makes with a listing..</p>
-            <table class="data-table">
+            {/* booking Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">booking</h2>
+            <p className="text-gray-700 mb-4">A booking that a user makes with a listing..</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -418,12 +414,12 @@ const DataDefinitionPage = () => {
                 </tbody>
             </table>
 
-            <!-- booking_status Table -->
-            <h2 class="text-xl font-bold mb-2 text-gray-800">booking_status</h2>
-            <p class="text-gray-700 mb-4">Status for the current booking.</p>
-            <table class="data-table">
+            {/* booking_status Table */}
+            <h2 className="text-xl font-bold mb-2 text-gray-800">booking_status</h2>
+            <p className="text-gray-700 mb-4">Status for the current booking.</p>
+            <table className="data-table">
                 <thead>
-                    <tr class="table-header">
+                    <tr className="table-header">
                         <th>Column</th>
                         <th>Description</th>
                         <th>Data Type</th>
@@ -439,7 +435,7 @@ const DataDefinitionPage = () => {
                     </tr>
                     <tr>
                         <td>status_name</td>
-                        <td>short name for the booking's status</td>
+                        <td>short name for the booking&apos;s status</td>
                         <td>VARCHAR</td>
                         <td></td>
                     </tr>
@@ -448,7 +444,7 @@ const DataDefinitionPage = () => {
 
         </section>
       </div>
-    </div>
+
   );
 };
 
