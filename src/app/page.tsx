@@ -1,12 +1,7 @@
 // pages/index.js
-import Head from 'next/head';
 
 export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>Parking App Project Overview</title>
-      </Head>
       <div className="container mx-auto py-12 px-4">
         <section className="mb-12">
           <h1 className="text-2xl font-bold mb-4">Welcome to the Parking App Project</h1>
@@ -34,14 +29,13 @@ export default function Home() {
           <p className="text-gray-700 leading-relaxed">
             1. Review the <a href="/attributes" className="text-blue-500 font-medium hover:underline">Attribute Editing Form</a> and provide your input.
           </p>
-          <p className="text-gray-700 leading-relaxed">
-            2. Explore the <a href="/data-definition" className="text-blue-500 font-medium hover:underline">Data Definition</a> to understand the project's data structure.
-          </p>
+            <p className="text-gray-700 leading-relaxed">
+            2. Explore the <a href="/data-definition" className="text-blue-500 font-medium hover:underline">Data Definition</a> to understand the project&apos;s data structure.
+            </p>
           <p className="text-gray-700 leading-relaxed">
             3. Provide any additional feedback or suggestions you may have.
           </p>
         </section>
       </div>
-    </div>
   );
 }
