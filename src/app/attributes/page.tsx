@@ -1,6 +1,7 @@
 "use client";
 // pages/attributes.tsx
 import { useEffect } from 'react';
+import Image from 'next/image';
 
 const AttributesPage = () => {
   useEffect(() => {
@@ -192,11 +193,11 @@ const AttributesPage = () => {
             </p>
 
             <div className="flex flex-col items-center">
-                <h3 className="section-subtitle text-gray-800">Listing Details</h3>
-                <img src="/images/list.png" alt="Filters Screenshot" className="img-demo" />
+              <h3 className="section-subtitle text-gray-800">Listing Details</h3>
+              <Image src="/images/list.png" alt="Filters Screenshot" className="img-demo" width={500} height={300} />
 
-                <h3 className="section-subtitle text-gray-800">Filters</h3>
-                <img src="/images/find.png" alt="Listing Details Screenshot" className="img-demo" />
+              <h3 className="section-subtitle text-gray-800">Filters</h3>
+              <Image src="/images/find.png" alt="Listing Details Screenshot" className="img-demo" width={500} height={300} />
             </div>
         </section>
   
