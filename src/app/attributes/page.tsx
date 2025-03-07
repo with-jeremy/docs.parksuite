@@ -1,11 +1,68 @@
-// pages/attributes.js
+// pages/attributes.tsx
 import Head from 'next/head';
+import { useEffect } from 'react';
 
 const AttributesPage = () => {
+  useEffect(() => {
+    // Client-side script - cannot be run during server render
+    const addAttribute = (categoryId: string) => {
+      const attributeList = document.getElementById(categoryId);
+      if (!attributeList) return;
+
+      const newLi = document.createElement("li");
+      newLi.innerHTML = `<input type="text" name="${categoryId.replace('-attributes', '_attributes[]')}" value=""><button type="button" class="remove-attribute"><i class="fas fa-times"></i></button>`;
+
+      attributeList.appendChild(newLi);
+
+      // Add event listener after the element is created
+      newLi.querySelector('.remove-attribute')?.addEventListener('click', (event: Event) => {
+        removeAttribute(event.target as HTMLElement);
+      });
+    };
+
+    const removeAttribute = (button: HTMLElement) => {
+      const li = button.parentNode as HTMLElement;
+      li.parentNode?.removeChild(li);
+    };
+
+    // Attach event listeners to dynamically created elements.  Better than onclick= in string above.
+    const addAttributeButtons = document.querySelectorAll<HTMLButtonElement>('.add-attribute-button');
+    addAttributeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        addAttribute(button.dataset.categoryId || '');
+      });
+    });
+
+    // Attach event listeners to existing remove buttons (important to find them *after* component mounts)
+    const removeAttributeButtons = document.querySelectorAll<HTMLButtonElement>('.remove-attribute');
+    removeAttributeButtons.forEach(button => {
+      button.addEventListener('click', (event: Event) => {
+        removeAttribute(event.target as HTMLElement);
+      });
+    });
+
+    // Cleanup function to remove event listeners when the component unmounts
+    return () => {
+      addAttributeButtons.forEach(button => {
+        button.removeEventListener('click', () => {
+          addAttribute(button.dataset.categoryId || '');
+        });
+      });
+
+      removeAttributeButtons.forEach(button => {
+        button.removeEventListener('click', (event: Event) => {
+          removeAttribute(event.target as HTMLElement);
+        });
+      });
+    };
+  }, []);  // Empty dependency array ensures this runs only once after the initial render
+
   return (
     <div>
       <Head>
         <title>Parking App: Edit Attributes</title>
+        {/* Font Awesome CSS - include in head */}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
       </Head>
       <div className="container mx-auto py-12 px-4">
         <section className="mb-12">
@@ -133,203 +190,211 @@ const AttributesPage = () => {
         </section>
 
         <section className="mb-12">
-            <h2 className="section-title text-gray-800">Defining Parking Space Attributes</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-                Here is where I need your input to define the attributes that will make our parking space listings stand out. These attributes will allow renters to filter and find the perfect spot for their needs.
-            </p>
+          <h2 className="section-title text-gray-800">Defining Parking Space Attributes</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            Here is where I need your input to define the attributes that will make our parking space listings stand out. These attributes will allow renters to filter and find the perfect spot for their needs.
+          </p>
 
-            <form name="edit-attributes" method="POST" data-netlify="true">
-                <input type="hidden" name="form-name" value="edit-attributes" />
+          <form name="edit-attributes" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="edit-attributes" />
 
-                {/* Category: Space Features */}
-                <div className="mb-6 card p-4 rounded-lg">
-                    <h3 className="section-subtitle text-gray-800">Space Features</h3>
-                    <ul className="attribute-list" id="space-features-attributes">
-                        <li>
-                            <input type="text" name="space_features_attributes[]" value="Compact Size" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="space_features_attributes[]" value="Oversized Vehicle Allowed" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="space_features_attributes[]" value="Electric Vehicle Charging" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="space_features_attributes[]" value="Covered" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                    </ul>
-                    <button type="button" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => addAttribute('space-features-attributes')}>Add Attribute</button>
-                </div>
+            {/* Category: Space Features */}
+            <div className="mb-6 card p-4 rounded-lg">
+              <h3 className="section-subtitle text-gray-800">Space Features</h3>
+              <ul className="attribute-list" id="space-features-attributes">
+                <li>
+                  <input type="text" name="space_features_attributes[]" defaultValue="Compact Size" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="space_features_attributes[]" defaultValue="Oversized Vehicle Allowed" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="space_features_attributes[]" defaultValue="Electric Vehicle Charging" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="space_features_attributes[]" defaultValue="Covered" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+              </ul>
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                data-category-id="space-features-attributes"
+              >
+                Add Attribute
+              </button>
+            </div>
 
-                {/* Category: Security */}
-                <div className="mb-6 card p-4 rounded-lg">
-                    <h3 className="section-subtitle text-gray-800">Security</h3>
-                    <ul className="attribute-list" id="security-attributes">
-                        <li>
-                            <input type="text" name="security_attributes[]" value="Security Cameras" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="security_attributes[]" value="Gated Access" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="security_attributes[]" value="On-Site Attendant" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="security_attributes[]" value="Well-Lit" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                    </ul>
-                    <button type="button" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => addAttribute('security-attributes')}>Add Attribute</button>
-                </div>
+            {/* Category: Security */}
+            <div className="mb-6 card p-4 rounded-lg">
+              <h3 className="section-subtitle text-gray-800">Security</h3>
+              <ul className="attribute-list" id="security-attributes">
+                <li>
+                  <input type="text" name="security_attributes[]" defaultValue="Security Cameras" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="security_attributes[]" defaultValue="Gated Access" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="security_attributes[]" defaultValue="On-Site Attendant" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="security_attributes[]" defaultValue="Well-Lit" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+              </ul>
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                data-category-id="security-attributes"
+              >
+                Add Attribute
+              </button>
+            </div>
 
-                {/* Category: Accessibility */}
-                <div className="mb-6 card p-4 rounded-lg">
-                    <h3 className="section-subtitle text-gray-800">Accessibility</h3>
-                    <ul className="attribute-list" id="accessibility-attributes">
-                        <li>
-                            <input type="text" name="accessibility_attributes[]" value="Handicap Accessible" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="accessibility_attributes[]" value="Paved" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="accessibility_attributes[]" value="Level Surface" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="accessibility_attributes[]" value="Easy Turnaround" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                    </ul>
-                    <button type="button" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => addAttribute('accessibility-attributes')}>Add Attribute</button>
-                </div>
+            {/* Category: Accessibility */}
+            <div className="mb-6 card p-4 rounded-lg">
+              <h3 className="section-subtitle text-gray-800">Accessibility</h3>
+              <ul className="attribute-list" id="accessibility-attributes">
+                <li>
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Handicap Accessible" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Paved" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Level Surface" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="accessibility_attributes[]" defaultValue="Easy Turnaround" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+              </ul>
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                data-category-id="accessibility-attributes"
+              >
+                Add Attribute
+              </button>
+            </div>
 
-                {/* Category: Location */}
-                <div className="mb-6 card p-4 rounded-lg">
-                    <h3 className="section-subtitle text-gray-800">Location</h3>
-                    <ul className="attribute-list" id="location-attributes">
-                        <li>
-                            <input type="text" name="location_attributes[]" value="Near Stadium Entrance" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="location_attributes[]" value="Downtown Core" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="location_attributes[]" value="Close to Public Transport" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="location_attributes[]" value="Residential Area" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                    </ul>
-                    <button type="button" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => addAttribute('location-attributes')}>Add Attribute</button>
-                </div>
+            {/* Category: Location */}
+            <div className="mb-6 card p-4 rounded-lg">
+              <h3 className="section-subtitle text-gray-800">Location</h3>
+              <ul className="attribute-list" id="location-attributes">
+                <li>
+                  <input type="text" name="location_attributes[]" defaultValue="Near Stadium Entrance" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="location_attributes[]" defaultValue="Downtown Core" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="location_attributes[]" defaultValue="Close to Public Transport" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="location_attributes[]" defaultValue="Residential Area" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+              </ul>
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                data-category-id="location-attributes"
+              >
+                Add Attribute
+              </button>
+            </div>
 
-                  {/* Category: Game Day */}
-                <div className="mb-6 card p-4 rounded-lg">
-                    <h3 className="section-subtitle text-gray-800">Game Day</h3>
-                    <ul className="attribute-list" id="game-day-attributes">
-                        <li>
-                            <input type="text" name="game_day_attributes[]" value="Walkable Distance to Stadium" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="game_day_attributes[]" value="Tailgating Allowed" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <input type="text" name="game_day_attributes[]" value="Family Friendly" />
-                            <button type="button" className="remove-attribute" onClick={() => removeAttribute(this)}>
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </li>
-                    </ul>
-                    <button type="button" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => addAttribute('game-day-attributes')}>Add Attribute</button>
-                </div>
+            {/* Category: Game Day */}
+            <div className="mb-6 card p-4 rounded-lg">
+              <h3 className="section-subtitle text-gray-800">Game Day</h3>
+              <ul className="attribute-list" id="game-day-attributes">
+                <li>
+                  <input type="text" name="game_day_attributes[]" defaultValue="Walkable Distance to Stadium" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="game_day_attributes[]" defaultValue="Tailgating Allowed" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+                <li>
+                  <input type="text" name="game_day_attributes[]" defaultValue="Family Friendly" />
+                  <button type="button" className="remove-attribute">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </li>
+              </ul>
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline add-attribute-button"
+                data-category-id="game-day-attributes"
+              >
+                Add Attribute
+              </button>
+            </div>
 
-                {/* Submit Button */}
-                <div className="flex items-center justify-between">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Submit Changes
-                    </button>
-                </div>
-            </form>
+            {/* Submit Button */}
+            <div className="flex items-center justify-between">
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Submit Changes
+              </button>
+            </div>
+          </form>
         </section>
-
 
         {/* Client Task */}
         <section className="mb-12">
-            <h2 className="section-title text-gray-800">Client Input Needed</h2>
-
+          <h2 className="section-title text-gray-800">Client Input Needed</h2>
         </section>
-
-
-
-    </div>
-
-    <script>
-        function addAttribute(categoryId) {
-            const attributeList = document.getElementById(categoryId);
-            const newLi = document.createElement("li");
-            newLi.innerHTML = '<input type="text" name="' + categoryId.replace('-attributes', '_attributes[]') + '" value=""><button type="button" class="remove-attribute" onClick="removeAttribute(this)"><i class="fas fa-times"></i></button>';
-            attributeList.appendChild(newLi);
-        }
-
-
-        function removeAttribute(button) {
-            const li = button.parentNode;
-            li.parentNode.removeChild(li);
-        }
-    </script>
-
       </div>
     </div>
   );
